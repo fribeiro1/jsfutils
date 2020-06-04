@@ -25,18 +25,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-public final class BigDecimalRangeValidator implements Validator {
-	private static final String MAXIMUM_ATTRIBUTE_ID = "maximum";
+public class BigDecimalRangeValidator implements Validator {
+	private static String MAXIMUM_ATTRIBUTE_ID = "maximum";
 
-	public static final String MAXIMUM_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.MAXIMUM";
+	public static String MAXIMUM_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.MAXIMUM";
 
-	private static final String MINIMUM_ATTRIBUTE_ID = "minimum";
+	private static String MINIMUM_ATTRIBUTE_ID = "minimum";
 
-	public static final String MINIMUM_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.MINIMUM";
+	public static String MINIMUM_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.MINIMUM";
 
-	public static final String NOT_IN_RANGE_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.NOT_IN_RANGE";
+	public static String NOT_IN_RANGE_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.NOT_IN_RANGE";
 
-	public static final String TYPE_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.TYPE";
+	public static String TYPE_MESSAGE_ID = "br.com.upic.jsf.validators.BigDecimalRangeValidator.TYPE";
 
 	private BigDecimal maximum;
 
@@ -45,42 +45,42 @@ public final class BigDecimalRangeValidator implements Validator {
 	public BigDecimalRangeValidator() {
 	}
 
-	public BigDecimalRangeValidator(final BigDecimal minimum,
-			final BigDecimal maximum) {
+	public BigDecimalRangeValidator(BigDecimal minimum,
+			BigDecimal maximum) {
 		this.minimum = minimum;
 
 		this.maximum = maximum;
 	}
 
-	public void setMaximum(final BigDecimal maximum) {
+	public void setMaximum(BigDecimal maximum) {
 		this.maximum = maximum;
 	}
 
-	public void setMinimum(final BigDecimal minimum) {
+	public void setMinimum(BigDecimal minimum) {
 		this.minimum = minimum;
 	}
 
 	@Override
-	public void validate(final FacesContext context,
-			final UIComponent component, final Object value)
+	public void validate(FacesContext context,
+			UIComponent component, Object value)
 			throws ValidatorException {
 
 		if (value == null)
 			return;
 
-		final Locale locale = context.getViewRoot().getLocale();
+		Locale locale = context.getViewRoot().getLocale();
 
-		final ClassLoader loader = Thread.currentThread()
+		ClassLoader loader = Thread.currentThread()
 				.getContextClassLoader();
 
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				FacesMessage.FACES_MESSAGES, locale, loader);
 
-		final Map<String, String> messageIdMap = new HashMap<String, String>();
+		Map<String, String> messageIdMap = new HashMap<String, String>();
 
-		for (final Enumeration<String> keys = bundle.getKeys(); keys
+		for (Enumeration<String> keys = bundle.getKeys(); keys
 				.hasMoreElements();) {
-			final String key = keys.nextElement();
+			String key = keys.nextElement();
 
 			messageIdMap.put(key, bundle.getString(key));
 		}
@@ -90,9 +90,9 @@ public final class BigDecimalRangeValidator implements Validator {
 		if (baseName != null) {
 			bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -100,11 +100,11 @@ public final class BigDecimalRangeValidator implements Validator {
 		}
 
 		if (!(value instanceof BigDecimal)) {
-			final FacesMessage message = new FacesMessage();
+			FacesMessage message = new FacesMessage();
 
 			message.setSummary(messageIdMap.get(TYPE_MESSAGE_ID));
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setDetail(MessageFormat.format(
 					messageIdMap.get(TYPE_MESSAGE_ID + "_detail"),
@@ -115,22 +115,22 @@ public final class BigDecimalRangeValidator implements Validator {
 			throw new ValidatorException(message);
 		}
 
-		final Map<String, Object> attributes = component.getAttributes();
+		Map<String, Object> attributes = component.getAttributes();
 
-		final BigDecimal minimum = attributes.containsKey(MINIMUM_ATTRIBUTE_ID) ? (BigDecimal) attributes
+		BigDecimal minimum = attributes.containsKey(MINIMUM_ATTRIBUTE_ID) ? (BigDecimal) attributes
 				.get(MINIMUM_ATTRIBUTE_ID) : this.minimum;
 
-		final BigDecimal maximum = attributes.containsKey(MAXIMUM_ATTRIBUTE_ID) ? (BigDecimal) attributes
+		BigDecimal maximum = attributes.containsKey(MAXIMUM_ATTRIBUTE_ID) ? (BigDecimal) attributes
 				.get(MAXIMUM_ATTRIBUTE_ID) : this.maximum;
 
 		if ((minimum != null) && (maximum != null)
 				&& (((BigDecimal) value).compareTo(minimum) < 0)
 				&& (((BigDecimal) value).compareTo(maximum) > 0)) {
-			final FacesMessage message = new FacesMessage();
+			FacesMessage message = new FacesMessage();
 
 			message.setSummary(messageIdMap.get(NOT_IN_RANGE_MESSAGE_ID));
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setDetail(MessageFormat.format(
 					messageIdMap.get(NOT_IN_RANGE_MESSAGE_ID + "_detail"),
@@ -141,11 +141,11 @@ public final class BigDecimalRangeValidator implements Validator {
 			throw new ValidatorException(message);
 		} else if ((minimum != null)
 				&& ((((BigDecimal) value).compareTo(minimum) < 0))) {
-			final FacesMessage message = new FacesMessage();
+			FacesMessage message = new FacesMessage();
 
 			message.setSummary(messageIdMap.get(MINIMUM_MESSAGE_ID));
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setDetail(MessageFormat.format(
 					messageIdMap.get(MINIMUM_MESSAGE_ID + "_detail"),
@@ -156,11 +156,11 @@ public final class BigDecimalRangeValidator implements Validator {
 			throw new ValidatorException(message);
 		} else if ((maximum != null)
 				&& (((BigDecimal) value).compareTo(maximum) > 0)) {
-			final FacesMessage message = new FacesMessage();
+			FacesMessage message = new FacesMessage();
 
 			message.setSummary(messageIdMap.get(MAXIMUM_MESSAGE_ID));
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setDetail(MessageFormat.format(
 					messageIdMap.get(MAXIMUM_MESSAGE_ID + "_detail"),

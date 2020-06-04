@@ -26,51 +26,51 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-public final class DoubleConverter implements Converter {
-	public static final String DOUBLE_MESSAGE_ID = "br.com.upic.jsf.converters.DoubleConverter.DOUBLE";
+public class DoubleConverter implements Converter {
+	public static String DOUBLE_MESSAGE_ID = "br.com.upic.jsf.converters.DoubleConverter.DOUBLE";
 
-	private static final String PATTERN_ATTRIBUTE_ID = "pattern";
+	private static String PATTERN_ATTRIBUTE_ID = "pattern";
 
-	public static final String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.DoubleConverter.STRING";
+	public static String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.DoubleConverter.STRING";
 
 	private String pattern;
 
 	public DoubleConverter() {
 	}
 
-	public DoubleConverter(final String pattern) {
+	public DoubleConverter(String pattern) {
 		this.pattern = pattern;
 	}
 
 	@Override
-	public Object getAsObject(final FacesContext context,
-			final UIComponent component, final String value) {
+	public Object getAsObject(FacesContext context,
+			UIComponent component, String value) {
 
 		if ((value == null) || (value.trim().equals("")))
 			return null;
 
 		try {
-			final NumberFormat format = new DecimalFormat(
+			NumberFormat format = new DecimalFormat(
 					(pattern == null) ? ((String) component.getAttributes()
 							.get(PATTERN_ATTRIBUTE_ID)) : (pattern));
 
 			return format.parse(value).doubleValue();
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -80,16 +80,16 @@ public final class DoubleConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setSummary(MessageFormat.format(
 					messageIdMap.get(DOUBLE_MESSAGE_ID), new Object[] { value,
@@ -107,8 +107,8 @@ public final class DoubleConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(final FacesContext context,
-			final UIComponent component, final Object value) {
+	public String getAsString(FacesContext context,
+			UIComponent component, Object value) {
 
 		if (value == null)
 			return "";
@@ -117,27 +117,27 @@ public final class DoubleConverter implements Converter {
 			return (String) value;
 
 		try {
-			final DecimalFormat format = new DecimalFormat(
+			DecimalFormat format = new DecimalFormat(
 					(pattern == null) ? ((String) component.getAttributes()
 							.get(PATTERN_ATTRIBUTE_ID)) : (pattern));
 
 			return format.format(value);
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -147,18 +147,18 @@ public final class DoubleConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
-			final String summary = MessageFormat.format(
+			String summary = MessageFormat.format(
 					messageIdMap.get(STRING_MESSAGE_ID), new Object[] { value,
 							null, clientId });
 
@@ -177,7 +177,7 @@ public final class DoubleConverter implements Converter {
 		return pattern;
 	}
 
-	public void setPattern(final String pattern) {
+	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 

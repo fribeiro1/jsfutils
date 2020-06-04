@@ -27,51 +27,51 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-public final class CalendarConverter implements Converter {
-	public static final String CALENDAR_MESSAGE_ID = "br.com.upic.jsf.converters.CalendarConverter.CALENDAR";
+public class CalendarConverter implements Converter {
+	public static String CALENDAR_MESSAGE_ID = "br.com.upic.jsf.converters.CalendarConverter.CALENDAR";
 
-	private static final String PATTERN_ATTRIBUTE_ID = "pattern";
+	private static String PATTERN_ATTRIBUTE_ID = "pattern";
 
-	public static final String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.CalendarConverter.STRING";
+	public static String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.CalendarConverter.STRING";
 
 	private String pattern;
 
 	public CalendarConverter() {
 	}
 
-	public CalendarConverter(final String pattern) {
+	public CalendarConverter(String pattern) {
 		this.pattern = pattern;
 	}
 
 	@Override
-	public Object getAsObject(final FacesContext context,
-			final UIComponent component, final String value) {
-		final DateFormat format = new SimpleDateFormat(
+	public Object getAsObject(FacesContext context,
+			UIComponent component, String value) {
+		DateFormat format = new SimpleDateFormat(
 				(pattern == null) ? ((String) component.getAttributes().get(
 						PATTERN_ATTRIBUTE_ID)) : (pattern));
 
 		try {
-			final Calendar cal = Calendar.getInstance();
+			Calendar cal = Calendar.getInstance();
 
 			cal.setTime(format.parse(value));
 
 			return cal;
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -81,16 +81,16 @@ public final class CalendarConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setSummary(MessageFormat.format(
 					messageIdMap.get(CALENDAR_MESSAGE_ID), new Object[] {
@@ -110,30 +110,30 @@ public final class CalendarConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(final FacesContext context,
-			final UIComponent component, final Object value) {
-		final DateFormat format = new SimpleDateFormat(
+	public String getAsString(FacesContext context,
+			UIComponent component, Object value) {
+		DateFormat format = new SimpleDateFormat(
 				(pattern == null) ? ((String) component.getAttributes().get(
 						PATTERN_ATTRIBUTE_ID)) : (pattern));
 
 		try {
 			return format.format(((Calendar) value).getTime());
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -143,18 +143,18 @@ public final class CalendarConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
-			final String summary = MessageFormat.format(
+			String summary = MessageFormat.format(
 					messageIdMap.get(STRING_MESSAGE_ID), new Object[] { value,
 							null, clientId });
 
@@ -173,7 +173,7 @@ public final class CalendarConverter implements Converter {
 		return pattern;
 	}
 
-	public void setPattern(final String pattern) {
+	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 

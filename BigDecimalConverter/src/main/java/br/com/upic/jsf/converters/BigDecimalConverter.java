@@ -25,40 +25,40 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-public final class BigDecimalConverter implements Converter {
-	public static final String BIG_DECIMAL_MESSAGE_ID = "br.com.upic.jsf.converters.BigDecimalConverter.BIG_DECIMAL";
+public class BigDecimalConverter implements Converter {
+	public static String BIG_DECIMAL_MESSAGE_ID = "br.com.upic.jsf.converters.BigDecimalConverter.BIG_DECIMAL";
 
-	private static final String PATTERN_ATTRIBUTE_ID = "pattern";
+	private static String PATTERN_ATTRIBUTE_ID = "pattern";
 
-	public static final String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.BigDecimalConverter.STRING";
+	public static String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.BigDecimalConverter.STRING";
 
 	@Override
-	public Object getAsObject(final FacesContext context,
-			final UIComponent component, final String value) {
+	public Object getAsObject(FacesContext context,
+			UIComponent component, String value) {
 
 		try {
-			final DecimalFormat format = new DecimalFormat((String) component
+			DecimalFormat format = new DecimalFormat((String) component
 					.getAttributes().get(PATTERN_ATTRIBUTE_ID));
 
 			format.setParseBigDecimal(true);
 
 			return format.parse(value);
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -68,16 +68,16 @@ public final class BigDecimalConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setSummary(MessageFormat.format(
 					messageIdMap.get(BIG_DECIMAL_MESSAGE_ID), new Object[] {
@@ -95,30 +95,30 @@ public final class BigDecimalConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(final FacesContext context,
-			final UIComponent component, final Object value) {
+	public String getAsString(FacesContext context,
+			UIComponent component, Object value) {
 
 		try {
-			final DecimalFormat format = new DecimalFormat((String) component
+			DecimalFormat format = new DecimalFormat((String) component
 					.getAttributes().get(PATTERN_ATTRIBUTE_ID));
 
 			return format.format(value);
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -128,18 +128,18 @@ public final class BigDecimalConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
-			final String summary = MessageFormat.format(
+			String summary = MessageFormat.format(
 					messageIdMap.get(STRING_MESSAGE_ID), new Object[] { value,
 							null, clientId });
 

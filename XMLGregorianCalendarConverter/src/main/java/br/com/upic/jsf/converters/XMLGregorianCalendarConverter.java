@@ -29,12 +29,12 @@ import javax.faces.convert.ConverterException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-public final class XMLGregorianCalendarConverter implements Converter {
-	private static final String PATTERN_ATTRIBUTE_ID = "pattern";
+public class XMLGregorianCalendarConverter implements Converter {
+	private static String PATTERN_ATTRIBUTE_ID = "pattern";
 
-	public static final String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.XMLGregorianCalendarConverter.STRING";
+	public static String STRING_MESSAGE_ID = "br.com.upic.jsf.converters.XMLGregorianCalendarConverter.STRING";
 
-	public static final String XML_GREGORIAN_CALENDAR_MESSAGE_ID = "br.com.upic.jsf.converters.XMLGregorianCalendarConverter.XML_GREGORIAN_CALENDAR";
+	public static String XML_GREGORIAN_CALENDAR_MESSAGE_ID = "br.com.upic.jsf.converters.XMLGregorianCalendarConverter.XML_GREGORIAN_CALENDAR";
 
 	private String pattern;
 
@@ -42,42 +42,42 @@ public final class XMLGregorianCalendarConverter implements Converter {
 		return pattern;
 	}
 
-	public void setPattern(final String pattern) {
+	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 
 	public XMLGregorianCalendarConverter() {
 	}
 
-	public XMLGregorianCalendarConverter(final String pattern) {
+	public XMLGregorianCalendarConverter(String pattern) {
 		this.pattern = pattern;
 	}
 
 	@Override
-	public Object getAsObject(final FacesContext context,
-			final UIComponent component, final String value) {
+	public Object getAsObject(FacesContext context,
+			UIComponent component, String value) {
 		DatatypeFactory factory = null;
 
 		try {
 			factory = DatatypeFactory.newInstance();
 
 			return factory.newXMLGregorianCalendar(value);
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -87,16 +87,16 @@ public final class XMLGregorianCalendarConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
 			message.setSummary(MessageFormat.format(
 					messageIdMap.get(XML_GREGORIAN_CALENDAR_MESSAGE_ID),
@@ -120,31 +120,31 @@ public final class XMLGregorianCalendarConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(final FacesContext context,
-			final UIComponent component, final Object value) {
-		final DateFormat format = new SimpleDateFormat(
+	public String getAsString(FacesContext context,
+			UIComponent component, Object value) {
+		DateFormat format = new SimpleDateFormat(
 				(pattern == null) ? ((String) component.getAttributes().get(
 						PATTERN_ATTRIBUTE_ID)) : (pattern));
 
 		try {
 			return format.format(((XMLGregorianCalendar) value)
 					.toGregorianCalendar().getTime());
-		} catch (final Exception e) {
-			final FacesMessage message = new FacesMessage();
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage();
 
-			final Locale locale = context.getViewRoot().getLocale();
+			Locale locale = context.getViewRoot().getLocale();
 
-			final ClassLoader loader = Thread.currentThread()
+			ClassLoader loader = Thread.currentThread()
 					.getContextClassLoader();
 
 			ResourceBundle bundle = ResourceBundle.getBundle(
 					FacesMessage.FACES_MESSAGES, locale, loader);
 
-			final Map<String, String> messageIdMap = new HashMap<String, String>();
+			Map<String, String> messageIdMap = new HashMap<String, String>();
 
-			for (final Enumeration<String> keys = bundle.getKeys(); keys
+			for (Enumeration<String> keys = bundle.getKeys(); keys
 					.hasMoreElements();) {
-				final String key = keys.nextElement();
+				String key = keys.nextElement();
 
 				messageIdMap.put(key, bundle.getString(key));
 			}
@@ -154,18 +154,18 @@ public final class XMLGregorianCalendarConverter implements Converter {
 			if (baseName != null) {
 				bundle = ResourceBundle.getBundle(baseName, locale, loader);
 
-				for (final Enumeration<String> keys = bundle.getKeys(); keys
+				for (Enumeration<String> keys = bundle.getKeys(); keys
 						.hasMoreElements();) {
-					final String key = keys.nextElement();
+					String key = keys.nextElement();
 
 					messageIdMap.put(key, bundle.getString(key));
 				}
 
 			}
 
-			final String clientId = component.getClientId(context);
+			String clientId = component.getClientId(context);
 
-			final String summary = MessageFormat.format(
+			String summary = MessageFormat.format(
 					messageIdMap.get(STRING_MESSAGE_ID), new Object[] { value,
 							null, clientId });
 
